@@ -1,8 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a> > Posts
+            <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a> >
+            <a href="{{ route('admin.posts.index') }}">{{ __('Posts') }}</a> > New
         </h2>
+        <a href="{{ route('admin.posts.create') }}">Add New Post</a>
     </x-slot>
 
     <div class="py-12">
