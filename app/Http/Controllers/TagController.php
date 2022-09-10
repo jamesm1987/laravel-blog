@@ -14,7 +14,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -41,7 +41,7 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tag  $cateory
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $Tag)
@@ -52,7 +52,7 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Cateory  $cateory
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function edit(Tag $Tag)
@@ -64,7 +64,7 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tag  $cateory
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tag $Tag)
@@ -75,7 +75,7 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tag  $cateory
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tag $Tag)

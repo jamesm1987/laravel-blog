@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a> > Tags
         </h2>
+        <a  class="px-4 py-2 bg-blue-800 text-white" href="{{ route('admin.tags.create') }}">Add New Tag</a>
     </x-slot>
 
     <div class="py-12">

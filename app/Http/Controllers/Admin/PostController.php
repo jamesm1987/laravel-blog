@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
+use Carbon\Carbon;
+
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -25,8 +31,15 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {      
-        return view('admin.posts.create');
+    {    
+        
+        $categories = Category::parentCategories()->with('children')->get();
+        $tags = Tag::pluck('title', 'id');
+        
+        return view('admin.posts.create', [
+            'categories' => $categories,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -37,7 +50,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request = $request->except('_token');
+        $request['user_id'] = Auth::user()->id;
+        $post = Post::create($request);
+
+        if ( !empty($request['categories']) ) {
+            $post->categories()->sync($request['categories']);
+        }
+
+        if ( !empty($request['tags']) ) {
+            $post->tags()->sync($request['tags']);
+        }
+
+        if ($request['action'] === 'publish') {
+            $request['published_at'] = Carbon::now();
+        }      
+        
+        return redirect()->route('admin.posts.index')->with('status', 'Post created!');
     }
 
     /**
