@@ -3,12 +3,16 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a> > 
             <a href="{{ route('admin.posts.index') }}">{{ __('Posts') }}</a> > 
-            New
+            Edit
         </h2>
 
         <div>
-            <button class="px-4 py-2 bg-gray-300 text-gray-800" form="form-new-post" data-action="save">Save</button>
-            <button class="px-4 py-2 bg-blue-800 text-white" form="form-new-post" data-action="publish" data-set-action>Publish</button>
+            <button class="px-4 py-2 bg-gray-300 text-gray-800" form="form-edit-post" data-action="save">
+                Save
+            </button>
+            <button class="px-4 py-2 bg-blue-800 text-white" form="form-edit-post" data-set-action data-action="{{ $post->published_at ? 'update' : 'publish' }}">
+                {{ $post->published_at ? 'Update' : 'Publish' }}
+            </button>
         </div>
     </x-slot>
 
@@ -16,10 +20,11 @@
         <div class="md:w-2/3 lg:w-3/4 px-5">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h1>New Post</h1>
+                    <h1>Edit Post</h1>
 
-                    <form class="pt-6 pb-8 mb-4" id="form-new-post" action="{{ route('admin.posts.store') }}" method="POST">
+                    <form class="pt-6 pb-8 mb-4" id="form-edit-post" action="{{ route('admin.posts.update', ['post' => $post->id]) }}" method="POST">
                         @csrf
+                        @method('put')
                         <div class="my-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                             Title
@@ -28,7 +33,7 @@
                                 focus:outline-none focus:shadow-outline my-2" 
                                 name="title" 
                                 id="title"
-                                value="" 
+                                value="{{ $post->title }}" 
                             />
                         </label>
 
@@ -39,14 +44,14 @@
                                 focus:outline-none focus:shadow-outline my-2" 
                                 name="slug" 
                                 id="slug" 
-                                value="" 
+                                value="{{ $post->slug }}" 
                             />
                         </label>                        
                     </div>
-                        <textarea id="editor" editor class="" name="body"></textarea>
-                        <input type="hidden" name="categories[]" value="" />
-                        <input type="hidden" name="tags[]" value="" />
-                        <input type="hidden" name="action" data-action-target value="save">
+                        <textarea id="editor" editor class="" name="body">{{ $post->body }}</textarea>
+                        <input type="hidden" name="categories" value="{{ implode(',', $postCategories) }}" />
+                        <input type="hidden" name="tags" value="{{ implode(',', $postTags) }}" />
+                        <input type="hidden" name="action" value="save">
                     </form>
                 </div>
             </div>
@@ -72,7 +77,9 @@
 
                         @foreach ($categories as $category)
                             <label class="block">
-                            <input type="checkbox" value="{{ $category->id }}"/>
+                            
+                            <input type="checkbox" {{ in_array($category->id, $postCategories) ? 'checked' : '' }} value="{{ $category->id }}"/>
+                                                    
                             {{ $category->title }}
                             </label>
                             
@@ -96,7 +103,7 @@
 
                         @foreach ($tags as $id => $tag)
                             <label class="block">
-                            <input type="checkbox" name="tags[]" value="{{ $id }}"/>
+                            <input type="checkbox" {{ in_array($id, $postTags) ? 'checked' : '' }} name="tags[]" value="{{ $id }}"/>
                             {{ $tag }}
                             </label>
                         

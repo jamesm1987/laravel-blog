@@ -55,11 +55,13 @@ class PostController extends Controller
         $post = Post::create($request);
 
         if ( !empty($request['categories']) ) {
-            $post->categories()->sync($request['categories']);
+            $categories = explode(',', $request['categories'][0]);
+            $this->syncToPost($post, Category::class, 'categories', $categories);
         }
 
         if ( !empty($request['tags']) ) {
-            $post->tags()->sync($request['tags']);
+            $tags = explode(',', $request['tags'][0]);
+            $this->syncToPost($post, Tag::class, 'tags', $tags);
         }
 
         if ($request['action'] === 'publish') {
@@ -87,7 +89,27 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+
+
+        $postCategories = $post->categories->map(function ($category) {
+            return $category->id;
+        })->toArray();
+        
+        $postTags = $post->tags->map(function ($tag) {
+            return $tag->id;
+        })->toArray();
+
+        $categories = Category::parentCategories()->with('children')->get();
+
+        $tags = Tag::pluck('title', 'id');
+        
+        return view('admin.posts.edit', [
+            'post' => $post,
+            'categories' => $categories,
+            'tags' => $tags,
+            'postCategories' => $postCategories,
+            'postTags' => $postTags,            
+        ]);
     }
 
     /**
@@ -99,7 +121,20 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request = $request->all();
+        if ($request['action'] === 'publish') {
+            $request['published_at'] = Carbon::now()->toDateTimeString();
+        }
+        
+        $post->update($request);
+
+        $categories = explode(',', $request['categories'][0]);
+        $this->syncToPost($post, Category::class, 'categories', $categories);
+
+        $tags = explode(',', $request['tags'][0]);
+        $this->syncToPost($post, Tag::class, 'tags', $tags);
+
+        return redirect()->route('admin.posts.index')->with('status', 'Post updated!');
     }
 
     /**
@@ -111,5 +146,18 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    private function syncToPost(Post $post, $syncModel, $associate, array $toSync)
+    {
+        foreach ($toSync as $key => $item) {
+            if ( !is_numeric($item) ) {
+                $newItem = $syncModel::create(['title' => $item]);
+                $toSync[$key] = $newItem->id;
+            }
+            
+        }
+
+        $post->$associate()->sync($toSync);
     }
 }

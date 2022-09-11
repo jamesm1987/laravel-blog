@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', ['uses' => HomeController::class])->name('home');
+
+Route::get('/{category}/{slug}/', ['uses' => PostController::class])->name('post');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

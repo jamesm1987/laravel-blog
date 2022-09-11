@@ -4,10 +4,11 @@ class postEditor {
     
     constructor(element) {
         this.element = element
-        this.postTags = this.element.querySelector('[name="tags[]"]')
-        this.postCategories = this.element.querySelector('[name="categories[]"]')
+        this.postTags = this.element.querySelector('[name="tags"]')
+        this.postCategories = this.element.querySelector('[name="categories"]')
         this.postCategoriesSelector = this.element.querySelector('[data-categories-selector]')
         this.postTagsSelector = this.element.querySelector('[data-tags-selector]')
+        this.setActionButton = document.querySelector('[data-set-action]')
         
         this.bindEvents()
     }
@@ -19,7 +20,20 @@ class postEditor {
 
         this.postTagsSelector.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', this.toggleTags.bind(this))
-        })        
+        })
+
+        this.setActionButton.addEventListener('click', this.setAction.bind(this))
+        
+        
+    }
+
+    setAction(event) {
+        let 
+            clicked = event.target,
+            action = clicked.getAttribute('data-action'),
+            target = this.element.querySelector(['[name="action"]'])
+
+            target.value = action
     }
 
     toggleCategories() {

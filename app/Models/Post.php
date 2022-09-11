@@ -16,7 +16,8 @@ class Post extends Model
         'title',
         'user_id',
         'slug',
-        'body'
+        'body',
+        'published_at'
     ];
 
     protected $casts = [
@@ -25,17 +26,17 @@ class Post extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     
     public function categories()
     {
-    	return $this->belongsToMany(Category::class)->using(PostCategory::class);
+    	return $this->belongsToMany(Category::class, 'post_categories');
     }    
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class)->using(PostTag::class);
+        return $this->belongsToMany(Tag::class, 'post_tags');
     }
 
     public function comments()
@@ -49,6 +50,11 @@ class Post extends Model
         return $query->whereNotNull('published_at');
     }
 
+    public function status()
+    {
+        return $this->published_at ? 'Published' : 'Draft'; 
+    }
+    
     public function slug(): Attribute
     {   
 
