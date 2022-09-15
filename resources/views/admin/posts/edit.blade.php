@@ -63,7 +63,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2>Status & Visibility</h2>
                         <ul>
-                            <li>Visibility: </li>
+                            <li>Visibility: {{ $post->published_at ? 'Published'  : 'Draft' }}</li>
                             <li>Publish: </li>
                         </ul>
                     </div>

@@ -39,14 +39,14 @@
                                         <span class="text-xs py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-medium bg-green-200 text-green-600 rounded-full">{{ $post->status() }}</span>
                                         </td>
                                         <td class="align-middle text-gray-500 text-sm font-normal px-6 py-4 whitespace-nowrap text-left">
-                                            @foreach ($post->tags as $tag )
-                                                {{ $tag->title }}
+                                            @foreach ($post->tags as $key => $tag )
+                                              {{ ($key < count($post->tags) - 1) ? $tag->title . ', ' : $tag->title }}
                                            @endforeach 
                                         </td>
                                         <td class="align-middle text-gray-500 text-sm font-normal px-6 py-4 whitespace-nowrap text-left">
-                                            @foreach ($post->categories as $category )
-                                                {{ $category->title }}
-                                           @endforeach 
+                                            @foreach ($post->categories as $key => $category )
+                                                {{ ($key < count($post->categories) - 1) ? $category->title . ', ' : $category->title }}
+                                            @endforeach 
                                         </td>
 
                                         <td class="text-sm font-normal px-6 py-4 whitespace-nowrap text-left">

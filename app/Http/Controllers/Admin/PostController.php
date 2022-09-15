@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\Tag;
 use Carbon\Carbon;
 
+use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\EditPostRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,7 +23,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with(['categories', 'tags'])->get();
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
@@ -45,10 +47,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreatePostRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
         $request = $request->except('_token');
         $request['user_id'] = Auth::user()->id;
@@ -89,8 +91,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
-
         $postCategories = $post->categories->map(function ($category) {
             return $category->id;
         })->toArray();
@@ -129,10 +129,11 @@ class PostController extends Controller
         $post->update($request);
 
         
-        $categories = empty($request['categories'][0]) ? [] : explode(',', $request['categories'][0]);
+        $categories = empty($request['categories'][0]) ? [] : explode(',', $request['categories']);
+        
         $this->syncToPost($post, Category::class, 'categories', $categories);
 
-        $tags = empty($request['tags'][0]) ? [] : explode(',', $request['tags'][0]);
+        $tags = empty($request['tags'][0]) ? [] : explode(',', $request['tags']);
         $this->syncToPost($post, Tag::class, 'tags', $tags);
 
         return redirect()->route('admin.posts.index')->with('status', 'Post updated!');
