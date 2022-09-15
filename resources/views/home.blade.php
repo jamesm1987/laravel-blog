@@ -20,8 +20,7 @@
             }
         </style>
     </head>
-    <body class="antialiased">
-       @include('partials.hero-banner')
+    <body class="antialiased">       
        @include('partials.featured-posts')
     </body>
 </html>

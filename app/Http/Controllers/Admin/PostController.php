@@ -128,10 +128,11 @@ class PostController extends Controller
         
         $post->update($request);
 
-        $categories = explode(',', $request['categories'][0]);
+        
+        $categories = empty($request['categories'][0]) ? [] : explode(',', $request['categories'][0]);
         $this->syncToPost($post, Category::class, 'categories', $categories);
 
-        $tags = explode(',', $request['tags'][0]);
+        $tags = empty($request['tags'][0]) ? [] : explode(',', $request['tags'][0]);
         $this->syncToPost($post, Tag::class, 'tags', $tags);
 
         return redirect()->route('admin.posts.index')->with('status', 'Post updated!');
@@ -152,7 +153,7 @@ class PostController extends Controller
     {
         foreach ($toSync as $key => $item) {
             if ( !is_numeric($item) ) {
-                $newItem = $syncModel::create(['title' => $item]);
+                $newItem = $syncModel::create(['title' => $item->title]);
                 $toSync[$key] = $newItem->id;
             }
             
