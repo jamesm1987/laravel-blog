@@ -85,7 +85,7 @@
                             
                             @foreach ($category->children as $child)
                                 <label class="block pl-3">
-                                    <input type="checkbox" value="{{ $child->id }}"/>
+                                    <input type="checkbox" {{ in_array($child->id, $postCategories) ? 'checked' : '' }}  value="{{ $child->id }}"/>
                                     {{ $child->title }}
                                 </label>
                             @endforeach    
