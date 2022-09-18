@@ -20,7 +20,7 @@ use App\Models\Category;
 
 Route::get('/', ['uses' => HomeController::class])->name('home');
 
-Route::get('categories', CategoryController::class)->name('category');
+// Route::get('categories', CategoryController::class)->name('category');
 // Route::get('{slug}', PostController::class)->name('post');
 
 Route::get('/dashboard', function () {
@@ -29,4 +29,4 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/category/{category_path}', CategoryController::class)->where('category_path', '.*');
+Route::get('/category/{category_path}', CategoryController::class)->where('category_path', '.*')->name('category');

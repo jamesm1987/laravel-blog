@@ -41,16 +41,25 @@ class Category extends Model
         );
     }
     
-    protected function buildSlug($slug)
+    public function category_path()
     {
-        $parent = $this->parent()->get();
+        $path = '';
 
-        $slug = [];
+        if ($this->parent_id != NULL) {
+            $ancestors = $this->ancestors()->get()->reverse();
+            
+            foreach ($ancestors as $ancestor) {
+                $path .= $ancestor->slug . '/';
+            }
+
+            $path .= $this->slug;
         
-        if ($parent->parent_id > 0) {
-            $slug = $parent->slug;
+        } else {
+            $path = $this->slug;
+        
         }
-        dd($slug);
-        return $slug;
+
+        return $path;
+    
     }
 }

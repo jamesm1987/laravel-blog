@@ -51,7 +51,7 @@
                                         </td>
                                       
                                         <td>
-                                        <a href="{{ route('category', ['slug' => $category->slug]) }}" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">View</a> | 
+                                        <a href="{{ route('category', ['category_path' => $category->category_path()]) }}" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">View</a> | 
                                         <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">Edit</a>
                                         </td>
                                     </tr>
