@@ -100,7 +100,7 @@ class PostController extends Controller
             return $tag->id;
         })->toArray();
 
-        $categories = Category::parentCategories()->with('children')->get();
+        $categories = Category::parents()->with('children')->get();
 
         $tags = Tag::pluck('title', 'id');
         
