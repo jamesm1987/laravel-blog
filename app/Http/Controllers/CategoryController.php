@@ -34,16 +34,16 @@ class CategoryController extends Controller
         $slugs = Arr::collapse($slugs);
           
         if ( !empty($slugParts) && $category->ancestors->isEmpty() ) {
-            return redirect(404);
+            return abort(404);
         }
           
           if (empty($slugs) || $categorySlug !== $slugs['category_slug']) {
-             return redirect(404);
+             return abort(404);
           }
 
           foreach (array_reverse($slugs['ancestors']) as $key => $ancestor) {
                 if ($ancestor !== $slugParts[$key]) {
-                    return redirect(404);
+                    return abort(404);
                 }
           }
 

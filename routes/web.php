@@ -21,7 +21,7 @@ use App\Models\Category;
 Route::get('/', ['uses' => HomeController::class])->name('home');
 
 // Route::get('categories', CategoryController::class)->name('category');
-// Route::get('{slug}', PostController::class)->name('post');
+Route::get('{slug}', PostController::class)->name('post');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

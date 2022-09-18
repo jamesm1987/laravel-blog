@@ -55,7 +55,7 @@
                                             </div>
                                         </td>                                        
                                         <td>
-                                        <a href="#" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">View</a> | 
+                                        <a href="{{ route('post', ['slug' => $post->slug]) }}" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">View</a> | 
                                         <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300 ease-in-out">Edit</a>
                                         </td>
                                     </tr>
