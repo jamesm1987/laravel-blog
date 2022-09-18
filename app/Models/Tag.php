@@ -21,12 +21,9 @@ class Tag extends Model
     public function slug(): Attribute
     {   
 
-        if ( empty($value) ) {
-            $value = $this->title;
-        }
-
         return Attribute::make(
             get: fn ($value) => Str::slug($value),
+            set: fn($value) => empty($value) ? Str::slug($this->title) : Str::slug($value)
         );
     }
 }

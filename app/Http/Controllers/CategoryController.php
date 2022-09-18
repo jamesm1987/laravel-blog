@@ -4,82 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __invoke($category_slug)
     {
-        //
+        
+        $slugParts  = explode('/', $category_slug);
+        $categorySlug = array_pop($slugParts);
+        
+        $category = Category::where('slug', $categorySlug)->with('ancestors')->get();
+        
+        $slugs = $category->map(function ($item) {
+
+            return [
+                'category_slug' => $item->slug,
+                'ancestors'  => $item->ancestors->map(function ($ancestor){
+                    return [
+                        'slug'   => $ancestor->slug,
+                    ];
+                })->pluck('slug')->all()
+            ];
+          });
+        
+        $slugs = Arr::collapse($slugs);
+          
+        if ( !empty($slugParts) && $category->first()->ancestors->isEmpty() ) {
+            return redirect(404);
+        }
+          
+          if (empty($slugs) || $categorySlug !== $slugs['category_slug']) {
+             return redirect(404);
+          }
+
+          foreach (array_reverse($slugs['ancestors']) as $key => $ancestor) {
+                if ($ancestor !== $slugParts[$key]) {
+                    return redirect(404);
+                }
+          }
+
+        return view('category.index', [
+            'category' => $category->first()
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $cateory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cateory  $cateory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $cateory
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $cateory
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
-    {
-        //
-    }
 }

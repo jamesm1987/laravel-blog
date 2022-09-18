@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', ['uses' => HomeController::class])->name('home');
 
-Route::get('/{category}/{slug}/', ['uses' => PostController::class])->name('post');
+Route::get('categories', CategoryController::class)->name('category');
+// Route::get('{slug}', PostController::class)->name('post');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('/category/{category_path}', CategoryController::class)->where('category_path', '.*');

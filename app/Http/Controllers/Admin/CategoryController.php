@@ -67,7 +67,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories  = Category::pluck('title', 'id');
+        return view('admin.categories.edit',[ 
+            'category' => $category,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -79,7 +83,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $input = $request->all();
+
+        $category->update($input);
+
+        $request->session()->flash('success', 'Category Updated!');
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**

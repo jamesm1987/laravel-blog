@@ -65,7 +65,11 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        $tags = Tag::pluck('title', 'id');
+        return view('admin.tags.edit', [
+            'tag' => $tag,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -77,7 +81,13 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $input = $request->all();
+
+        $tag->update($input);
+
+        $request->session()->flash('success', 'Tag Updated!');
+
+        return redirect()->route('admin.tags.index');
     }
 
     /**

@@ -35,7 +35,8 @@ class PostController extends Controller
     public function create()
     {    
         
-        $categories = Category::parentCategories()->with('children')->get();
+        $categories = Category::parents()->with('children')->get();
+    
         $tags = Tag::pluck('title', 'id');
         
         return view('admin.posts.create', [
