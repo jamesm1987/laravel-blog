@@ -15,7 +15,7 @@ class CategoryController extends Controller
         $slugParts  = explode('/', $category_slug);
         $categorySlug = array_pop($slugParts);
         
-        $category = Category::where('slug', $categorySlug)->with('ancestors')->get();
+        $category = Category::where('slug', $categorySlug)->with(['ancestors', 'posts'])->get();
         
         $slugs = $category->map(function ($item) {
 
@@ -28,10 +28,12 @@ class CategoryController extends Controller
                 })->pluck('slug')->all()
             ];
           });
+
+        $category = $category->first();
         
         $slugs = Arr::collapse($slugs);
           
-        if ( !empty($slugParts) && $category->first()->ancestors->isEmpty() ) {
+        if ( !empty($slugParts) && $category->ancestors->isEmpty() ) {
             return redirect(404);
         }
           
@@ -46,7 +48,7 @@ class CategoryController extends Controller
           }
 
         return view('category.index', [
-            'category' => $category->first()
+            'category' => $category
         ]);
     }
 
