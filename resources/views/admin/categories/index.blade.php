@@ -47,7 +47,7 @@
                                             {{ $category->slug }}
                                         </td>
                                         <td class="align-middle text-gray-500 text-sm font-normal px-6 py-4 whitespace-nowrap text-left">
-                                           0
+                                           {{ count($category->posts) }}
                                         </td>
                                       
                                         <td>
