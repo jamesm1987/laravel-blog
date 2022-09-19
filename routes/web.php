@@ -30,6 +30,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/category/{category_path}', CategoryController::class)->where('category_path', '.*')->name('category');
 
-Route::get('/blog/{slug}', PostController::class)->name('post');
+Route::get('/blog/{post:slug}', PostController::class)->name('post');
 
 Route::get('/', HomeController::class)->name('home');

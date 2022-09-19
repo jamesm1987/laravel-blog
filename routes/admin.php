@@ -27,3 +27,5 @@ Route::resource('permissions', PermissionController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('tags', TagController::class);
 Route::resource('posts', PostController::class);
+
+Route::post('posts/{post:id}/featured-image', [PostController::class, 'featuredImage'])->name('post-featured-image');

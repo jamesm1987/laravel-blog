@@ -151,6 +151,11 @@ class PostController extends Controller
         //
     }
 
+    public function featuredImage($id)
+    {
+
+    }
+
     private function syncToPost(Post $post, $syncModel, $associate, array $toSync)
     {
         foreach ($toSync as $key => $item) {

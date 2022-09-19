@@ -11,7 +11,8 @@
       </div>
       <div class="modal-body relative p-4">
         Upload Image or <a class="link text-blue-500" href="#">Select from Media Library</a>
-        <form action="#" class="my-4">
+        <form action="{{ route('admin.post-featured-image', ['post' => $id]) }}" class="my-4" method="POST">
+          @csrf
           <input class="block mb-5 w-full text-xs text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="featured-image" id="featured-image-upload" type="file">
           <button class="px-2 py-1 bg-blue-800 text-white" type="submit">Upload</button>
         </form>

@@ -113,7 +113,7 @@
                         <button 
                             class="px-2 py-1 bg-blue-800 text-white" 
                             data-model="Post" 
-                            data-post-id="{{ $post->id }}"
+                            data-post-id=""
                             data-bs-toggle="modal" data-bs-target="#featured-image-modal"
                         >
                             Add Image

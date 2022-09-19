@@ -132,7 +132,7 @@
         </aside>
     </div>
 
-    @include('partials.modals.featured-image')
+    @include('partials.modals.featured-image', ['id' => $post->id])
 
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     <script>
