@@ -103,9 +103,28 @@
                         @endforeach                        
                     </div>
                 </div>
-            </div>            
+            </div> 
+            
+            <div class="max-w-2xl mx-auto sm:px-6 lg:pl-0 lg:pr-6 mb-3">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200" data-featured-image-selector>
+                        <h2>Featured Image</h2>
+                        <div></div>
+                        <button 
+                            class="px-2 py-1 bg-blue-800 text-white" 
+                            data-model="Post" 
+                            data-post-id="{{ $post->id }}"
+                            data-bs-toggle="modal" data-bs-target="#featured-image-modal"
+                        >
+                            Add Image
+                        </button>
+                    </div>
+                </div>
+            </div> 
         </aside>
     </div>
+
+    @include('partials.modals.featured-image')
 
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     <script>

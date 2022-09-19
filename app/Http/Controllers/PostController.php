@@ -14,12 +14,10 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->first();
 
         if (!$post) {
-            return abort(404);
+            // return abort(404);
         }
 
-
         return view('posts.index', [
-        
             'post' => $post,
         ]);
     }

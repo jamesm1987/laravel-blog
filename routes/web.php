@@ -18,7 +18,8 @@ use App\Models\Category;
 |
 */
 
-Route::get('/', ['uses' => HomeController::class])->name('home');
+
+require __DIR__.'/auth.php';
 
 // Route::get('categories', CategoryController::class)->name('category');
 Route::get('{slug}', PostController::class)->name('post');
@@ -27,6 +28,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-
 Route::get('/category/{category_path}', CategoryController::class)->where('category_path', '.*')->name('category');
+
+Route::get('/blog/{slug}', PostController::class)->name('post');
+
+Route::get('/', HomeController::class)->name('home');

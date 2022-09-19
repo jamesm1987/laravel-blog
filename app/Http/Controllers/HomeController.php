@@ -12,6 +12,7 @@ class HomeController extends Controller
     {
         $categories = Category::all();
         $posts = Post::paginate(8);
+        
         return view('home', [
             'categories' => $categories,
             'posts' => $posts,

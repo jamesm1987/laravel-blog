@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
           foreach (array_reverse($slugs['ancestors']) as $key => $ancestor) {
                 if ($ancestor !== $slugParts[$key]) {
-                    return abort(404);
+                    return redirect(404);
                 }
           }
 
